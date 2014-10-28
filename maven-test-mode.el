@@ -44,9 +44,6 @@
 ;;
 ;;  * run tests for entire project (bound to `\C-c ,a`)
 ;;
-;; If you want maven-test-mode to be enabled automatically with java-mdoe, add this to your .emacs:
-;; (add-hook 'java-mode-hook 'maven-test-mode)
-;;
 ;; Check the full list of available keybindings at `maven-test-mode-map'
 ;;
 ;;; Change Log:
@@ -198,6 +195,9 @@
   :keymap maven-test-mode-map
   :lighter "MvnTest"
   :group 'maven-test)
+
+;;;###autoload
+(add-hook 'java-mode-hook 'maven-test-mode)
 
 (provide 'maven-test-mode)
 ;;; maven-test-mode.el ends here.
