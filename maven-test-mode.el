@@ -149,7 +149,7 @@
 
 (defun maven-test-format-show-surefire-reports ()
   (format
-   ";EC=$?; if [[ $EC != 0 ]]; then cat %s/target/surefire-reports/*.txt; exit $EC; fi"
+   ";EC=$?; if [[ $EC != 0 ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
    (ffip-project-root)))
 
 (defun maven-test-class-name-from-buffer ()
