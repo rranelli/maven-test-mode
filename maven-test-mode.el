@@ -81,7 +81,7 @@
     (define-key map (kbd  "C-c , v") 'maven-test-file)
     (define-key map (kbd  "C-c , s") 'maven-test-method)
     (define-key map (kbd  "C-c , i") 'maven-test-install)
-    (define-key map (kbd  "C-c , C") 'maven-test-clean-install)
+    (define-key map (kbd  "C-c , C") 'maven-test-clean-test-all)
     (define-key map (kbd  "C-c , r") 'recompile)
     (define-key map (kbd  "C-c , t") 'maven-test-toggle-between-test-and-class)
     (define-key map (kbd  "C-c , y") 'maven-test-toggle-between-test-and-class-other-window)
