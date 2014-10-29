@@ -46,6 +46,10 @@
 ;;
 ;; Check the full list of available keybindings at `maven-test-mode-map'
 ;;
+;; If you want to be able to jump from compilation errors to source files, you
+;; have to call `maven-test-add-regexps-for-stack-trace-jump' somewhere in your
+;; .emacs.
+;;
 ;;; Change Log:
 ;;
 ;; 0.1 - First release
@@ -213,17 +217,18 @@
 	  (replace-regexp-in-string "\\." "/" (match-string 1))
 	  (match-string 2)))
 
-(add-to-list 'compilation-error-regexp-alist 'java-src-stack-trace)
-(add-to-list 'compilation-error-regexp-alist 'java-tst-stack-trace)
+(defun maven-test-add-regexps-for-stack-trace-jump ()
+  (add-to-list 'compilation-error-regexp-alist 'java-src-stack-trace)
+  (add-to-list 'compilation-error-regexp-alist 'java-tst-stack-trace)
 
-(add-to-list 'compilation-error-regexp-alist-alist
-	     '(java-src-stack-trace .
-				    ("at \\(\\(?:[[:alnum:]]+\\.\\)+\\)+[[:alnum:]]+\\.[[:alnum:]]+(\\([[:alnum:]]+\\.java\\):\\([[:digit:]]+\\))$"
-				     maven-test-java-src-stack-trace-regexp-to-filename 3)))
-(add-to-list 'compilation-error-regexp-alist-alist
-	     '(java-tst-stack-trace .
-				    ("at \\(\\(?:[[:alnum:]]+\\.\\)+\\)+[[:alnum:]]+\\.[[:alnum:]]+(\\([[:alnum:]]+\\Test.java\\):\\([[:digit:]]+\\))$"
-				     maven-test-java-tst-stack-trace-regexp-to-filename 3)))
+  (add-to-list 'compilation-error-regexp-alist-alist
+	       '(java-src-stack-trace .
+				      ("at \\(\\(?:[[:alnum:]]+\\.\\)+\\)+[[:alnum:]]+\\.[[:alnum:]]+(\\([[:alnum:]]+\\.java\\):\\([[:digit:]]+\\))$"
+				       maven-test-java-src-stack-trace-regexp-to-filename 3)))
+  (add-to-list 'compilation-error-regexp-alist-alist
+	       '(java-tst-stack-trace .
+				      ("at \\(\\(?:[[:alnum:]]+\\.\\)+\\)+[[:alnum:]]+\\.[[:alnum:]]+(\\([[:alnum:]]+\\Test.java\\):\\([[:digit:]]+\\))$"
+				       maven-test-java-tst-stack-trace-regexp-to-filename 3))))
 
 ;;;###autoload
 (define-minor-mode maven-test-mode
