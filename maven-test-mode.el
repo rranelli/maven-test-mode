@@ -53,6 +53,7 @@
 ;;; Code:
 (require 's)
 (require 'find-file-in-project)
+(require 'compile)
 
 ;;; Customization
 ;;
