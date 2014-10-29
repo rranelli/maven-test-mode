@@ -107,10 +107,12 @@
 (defun maven-test-file ()
   "Run maven test task for current file."
   (interactive)
-  (save-excursion
+  ;; HACK: this cur-file stuff is.
+  (let ((cur-file (buffer-file-name)))
     (unless (maven-test-is-test-file-p)
       (maven-test-toggle-between-test-and-class))
-    (compile (maven-test-file-command))))
+    (compile (maven-test-file-command))
+    (find-file cur-file)))
 
 (defun maven-test-method ()
   "Run maven test task for current method"
@@ -182,10 +184,13 @@
   (maven-test--toggle-between-test-and-class #'find-file-other-window))
 
 (defun maven-test--toggle-between-test-and-class (func)
+  (funcall func (maven-test-toggle-get-target-filename)))
+
+(defun maven-test-toggle-get-target-filename ()
   (let* ((subs (if (maven-test-is-test-file-p)
 		   (maven-test-test-to-class-subs)
 		 maven-test-class-to-test-subs)))
-    (funcall func (s-replace-all subs (buffer-file-name)))))
+    (s-replace-all subs (buffer-file-name))))
 
 (defun maven-test-test-to-class-subs ()
   (mapcar
