@@ -87,7 +87,7 @@
     (define-key map (kbd  "C-c , y") 'maven-test-toggle-between-test-and-class-other-window)
     map))
 
-;;; Test commands
+;;; Test functions
 ;;
 (defun maven-test-all ()
   "Run maven test task."
@@ -114,6 +114,8 @@
     (compile (maven-test-file-command))
     (find-file cur-file)))
 
+;;; Test commands
+;;
 (defun maven-test-method ()
   "Run maven test task for current method"
   (interactive)
@@ -122,25 +124,21 @@
   (compile (maven-test-method-command)))
 
 (defun maven-test-all-command ()
-  (maven-test-wrap-command-with-surefire-results
-   (maven-test-format-task (maven-test--test-task))))
+  (s-concat
+   (maven-test-format-task (maven-test--test-task))
+   (maven-test-format-show-surefire-reports)))
 
 (defun maven-test-file-command ()
-  (maven-test-wrap-command-with-surefire-results
-   (s-concat
-    (maven-test-format-task (maven-test--test-task))
-    (maven-test-class-name-from-buffer))))
+  (s-concat
+   (maven-test-format-task (maven-test--test-task))
+   (maven-test-class-name-from-buffer)
+   (maven-test-format-show-surefire-reports)))
 
 (defun maven-test-method-command ()
-  (maven-test-wrap-command-with-surefire-results
-   (s-concat
-    (maven-test-format-task (maven-test--test-task))
-    (maven-test-class-name-from-buffer)
-    (maven-test-get-prev-test-method-name))))
-
-(defun maven-test-wrap-command-with-surefire-results (command)
   (s-concat
-   command
+   (maven-test-format-task (maven-test--test-task))
+   (maven-test-class-name-from-buffer)
+   (maven-test-get-prev-test-method-name)
    (maven-test-format-show-surefire-reports)))
 
 ;;; Command formatting
