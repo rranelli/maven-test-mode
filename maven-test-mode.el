@@ -140,7 +140,6 @@
 
 (defun maven-test-wrap-command-with-surefire-results (command)
   (s-concat
-   (maven-test-format-clear-surefire-reports)
    command
    (maven-test-format-show-surefire-reports)))
 
@@ -150,10 +149,9 @@
   (format "cd %s && mvn %s" (ffip-project-root) task))
 
 (defun maven-test-format-show-surefire-reports ()
-  (format ";cat %s/target/surefire-reports/*.txt" (ffip-project-root)))
-
-(defun maven-test-format-clear-surefire-reports ()
-  (format "rm -rf %s/target/surefire-reports/*.txt;" (ffip-project-root)))
+  (format
+   ";EC=$?; if [[ $EC != 0 ]]; then cat %s/target/surefire-reports/*.txt; exit $EC; fi"
+   (ffip-project-root)))
 
 (defun maven-test-class-name-from-buffer ()
   (let* ((class-file (file-name-base (buffer-file-name)))
