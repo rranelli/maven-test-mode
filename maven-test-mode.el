@@ -227,7 +227,7 @@
 
 ;;;###autoload
 (define-minor-mode maven-test-mode
-  "This minor mode define utilities to use org-mode to write jekyll blog posts."
+  "This minor mode provides utilities to run maven test tasks"
   :init-value nil
   :keymap maven-test-mode-map
   :lighter "MvnTest"
