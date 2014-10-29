@@ -233,7 +233,6 @@
   :lighter "MvnTest"
   :group 'maven-test)
 
-;;;###autoload
 (add-hook 'java-mode-hook 'maven-test-mode)
 
 (provide 'maven-test-mode)
