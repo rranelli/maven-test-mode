@@ -64,7 +64,7 @@
   :group 'maven-test)
 
 (defcustom maven-test-test-method-name-re
-  "void \\(test[a-zA-Z]+\\) *() *{"
+  "void \\([a-zA-Z]+\\) *() *{"
   "Pattern to identify the test method name before point"
   :group 'maven-test)
 
@@ -197,18 +197,18 @@
 ;;; Compilation mode jumps
 ;;
 ;; -- the following code was stolen from https://github.com/coreyoconnor/RCs
-(defvar java-src-dir "src/main/java/")
-(defvar java-tst-dir "src/test/java/")
+(defvar maven-test-java-src-dir "src/main/java/")
+(defvar maven-test-java-tst-dir "src/test/java/")
 
-(defun java-src-stack-trace-regexp-to-filename ()
+(defun maven-test-java-src-stack-trace-regexp-to-filename ()
   "Generates a relative filename from java-stack-trace regexp match data."
-  (java--stack-trace-regexp-to-filename java-src-dir))
+  (maven-test--java-stack-trace-regexp-to-filename maven-test-java-src-dir))
 
-(defun java-tst-stack-trace-regexp-to-filename ()
+(defun maven-test-java-tst-stack-trace-regexp-to-filename ()
   "Generates a relative filename from java-stack-trace regexp match data."
-  (java--stack-trace-regexp-to-filename java-tst-dir))
+  (maven-test--java-stack-trace-regexp-to-filename maven-test-java-tst-dir))
 
-(defun java--stack-trace-regexp-to-filename (root)
+(defun maven-test--java-stack-trace-regexp-to-filename (root)
   (concat root
 	  (replace-regexp-in-string "\\." "/" (match-string 1))
 	  (match-string 2)))
@@ -219,11 +219,11 @@
 (add-to-list 'compilation-error-regexp-alist-alist
 	     '(java-src-stack-trace .
 				    ("at \\(\\(?:[[:alnum:]]+\\.\\)+\\)+[[:alnum:]]+\\.[[:alnum:]]+(\\([[:alnum:]]+\\.java\\):\\([[:digit:]]+\\))$"
-				     java-src-stack-trace-regexp-to-filename 3)))
+				     maven-test-java-src-stack-trace-regexp-to-filename 3)))
 (add-to-list 'compilation-error-regexp-alist-alist
 	     '(java-tst-stack-trace .
 				    ("at \\(\\(?:[[:alnum:]]+\\.\\)+\\)+[[:alnum:]]+\\.[[:alnum:]]+(\\([[:alnum:]]+\\Test.java\\):\\([[:digit:]]+\\))$"
-				     java-tst-stack-trace-regexp-to-filename 3)))
+				     maven-test-java-tst-stack-trace-regexp-to-filename 3)))
 
 ;;;###autoload
 (define-minor-mode maven-test-mode
