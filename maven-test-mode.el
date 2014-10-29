@@ -62,6 +62,11 @@
   "Patterns to substitute into class' filename to jump to the associated test."
   :group 'maven-test)
 
+(defcustom maven-test-test-method-name-re
+  "void \\(test[a-zA-Z]+\\) *() *{"
+  "Pattern to identify the test method name before point"
+  :group 'maven-test)
+
 (defcustom maven-test-test-task-options
   "-q"
   "Options to add to the test task."
@@ -156,7 +161,7 @@
 (defun maven-test-get-prev-test-method-name ()
   (save-excursion
     (or
-     (re-search-backward "void \\(test[a-zA-Z]+\\) *() *{" nil t)
+     (re-search-backward maven-test-test-method-name-re nil t)
      (error "No test method definition before point."))
     (s-concat "#" (match-string 1))))
 
