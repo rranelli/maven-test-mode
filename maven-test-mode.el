@@ -56,12 +56,6 @@
 
 ;;; Customization
 ;;
-(defcustom maven-test-test-to-class-subs
-  '(("/src/test/" . "/src/main/")
-    ("Test.java" . ".java"))
-  "Patterns to substitute into test's filename to jump to the associated class."
-  :group 'maven-test)
-
 (defcustom maven-test-class-to-test-subs
   '(("/src/main/" . "/src/test/")
     (".java" . "Test.java"))
@@ -184,9 +178,14 @@
 
 (defun maven-test--toggle-between-test-and-class (func)
   (let* ((subs (if (maven-test-is-test-file-p)
-		   maven-test-test-to-class-subs
+		   (maven-test-test-to-class-subs)
 		 maven-test-class-to-test-subs)))
     (funcall func (s-replace-all subs (buffer-file-name)))))
+
+(defun maven-test-test-to-class-subs ()
+  (mapcar
+   #'(lambda (e) `(,(cdr e) . ,(car e)))
+   maven-test-class-to-test-subs))
 
 ;;;###autoload
 (define-minor-mode maven-test-mode
