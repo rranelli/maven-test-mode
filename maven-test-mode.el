@@ -4,7 +4,7 @@
 ;; Author: Renan Ranelli
 ;; URL: http://github.com/rranelli/maven-test-mode
 ;; Created: 2014
-;; Version: 0.1
+;; Version: 0.1.1
 ;; Keywords: java maven test
 ;; Package-Requires: ((s "1.9.0") (find-file-in-project "3.3"))
 
@@ -52,6 +52,7 @@
 ;;
 ;;; Change Log:
 ;;
+;; 0.1 - Minor changes showing surefire reports on compilation buffer
 ;; 0.1 - First release
 
 ;;; Code:
