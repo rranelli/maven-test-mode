@@ -6,7 +6,7 @@
 ;; Created: 2014
 ;; Version: 0.1.1
 ;; Keywords: java maven test
-;; Package-Requires: ((s "1.9.0") (find-file-in-project "3.3"))
+;; Package-Requires: ((s "1.9.0"))
 
 ;; This file is NOT part of GNU Emacs.
 ;;
@@ -57,7 +57,6 @@
 
 ;;; Code:
 (require 's)
-(require 'find-file-in-project)
 (require 'compile)
 
 ;;; Customization
@@ -150,13 +149,13 @@
 ;;; Command formatting
 ;;
 (defun maven-test-format-task (task)
-  (format "cd %s && mvn %s" (ffip-project-root) task))
+  (format "cd %s && mvn %s" (maven-test-root-dir) task))
 
 (defun maven-test-format-show-surefire-reports ()
   (format
    ";EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
-   (ffip-project-root)
-   (ffip-project-root)))
+   (maven-test-root-dir)
+   (maven-test-root-dir)))
 
 (defun maven-test-class-name-from-buffer ()
   (let* ((class-file (file-name-base (buffer-file-name)))
@@ -231,6 +230,12 @@
 	       '(java-tst-stack-trace .
 				      ("at \\(\\(?:[[:alnum:]]+\\.\\)+\\)+[[:alnum:]]+\\.[[:alnum:]]+(\\([[:alnum:]]+\\Test.java\\):\\([[:digit:]]+\\))$"
 				       maven-test-java-tst-stack-trace-regexp-to-filename 3))))
+
+;;; Utilities
+;;
+(defun maven-test-root-dir ()
+  "Locates maven root directory."
+  (locate-dominating-file (buffer-file-name) "pom.xml"))
 
 ;;;###autoload
 (define-minor-mode maven-test-mode
