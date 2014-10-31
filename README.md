@@ -24,13 +24,6 @@ If you prefer the more 'verbose' `maven` output, change the default of
 (setq maven-test-test-task-options "")
 ```
 
-If you want to be able to jump from compilation errors to source files, you
-have to call the following function somewhere in your .emacs.
-
-```lisp
-(maven-test-add-regexps-for-stack-trace-jump)
-```
-
 ## Contributing
 
 Love Emacs? Great, help out by contributing. The easiest way

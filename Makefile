@@ -4,7 +4,7 @@ elpa: *.el
 	mkdir -p "$$dir"; \
 	cp -r maven-test-mode.el maven-test-mode-$$version; \
 	echo "(define-package \"maven-test-mode\" \"$$version\" \
-	\"Utilities and conveniences for maven tests\")" \
+	\"Utilities for running maven tests\")" \
 	> "$$dir"/maven-test-mode-pkg.el; \
 	tar cvf maven-test-mode-$$version.tar "$$dir"
 

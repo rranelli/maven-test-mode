@@ -4,7 +4,7 @@
 ;; Author: Renan Ranelli
 ;; URL: http://github.com/rranelli/maven-test-mode
 ;; Created: 2014
-;; Version: 0.1.1
+;; Version: 0.1.2
 ;; Keywords: java maven test
 ;; Package-Requires: ((s "1.9.0"))
 
@@ -46,13 +46,14 @@
 ;;
 ;; Check the full list of available keybindings at `maven-test-mode-map'
 ;;
-;; If you want to be able to jump from compilation errors to source files, you
-;; have to call `maven-test-add-regexps-for-stack-trace-jump' somewhere in your
-;; .emacs.
+;; maven-test-mode defines a derived minor mode `maven-test-compilation' which
+;; defines how to jump from compilation errors to text files.
 ;;
 ;;; Change Log:
 ;;
-;; 0.1 - Minor changes showing surefire reports on compilation buffer
+;; 0.1.2 - Add derived mode mavne-test-compilation and abolish
+;; maven-test-add-regexps-for-stack-trace-jump
+;; 0.1.1 - Minor changes showing surefire reports on compilation buffer
 ;; 0.1 - First release
 
 ;;; Code:
@@ -97,17 +98,17 @@
 (defun maven-test-all ()
   "Run maven test task."
   (interactive)
-  (compile (maven-test-all-command)))
+  (maven-test-compile (maven-test-all-command)))
 
 (defun maven-test-install ()
   "Run maven build task."
   (interactive)
-  (compile (maven-test-format-task "install")))
+  (maven-test-compile (maven-test-format-task "install")))
 
 (defun maven-test-clean-test-all ()
   "Run maven clean and test task."
   (interactive)
-  (compile (maven-test-format-task "clean test")))
+  (maven-test-compile (maven-test-format-task "clean test")))
 
 (defun maven-test-file ()
   "Run maven test task for current file."
@@ -116,7 +117,7 @@
   (let ((cur-file (buffer-file-name)))
     (unless (maven-test-is-test-file-p)
       (maven-test-toggle-between-test-and-class))
-    (compile (maven-test-file-command))
+    (maven-test-compile (maven-test-file-command))
     (find-file cur-file)))
 
 ;;; Test commands
@@ -126,7 +127,7 @@
   (interactive)
   (unless (maven-test-is-test-file-p)
     (error "Not visiting test file."))
-  (compile (maven-test-method-command)))
+  (maven-test-compile (maven-test-method-command)))
 
 (defun maven-test-all-command ()
   (s-concat
@@ -218,24 +219,29 @@
 	  (replace-regexp-in-string "\\." "/" (match-string 1))
 	  (match-string 2)))
 
-(defun maven-test-add-regexps-for-stack-trace-jump ()
-  (add-to-list 'compilation-error-regexp-alist 'java-src-stack-trace)
-  (add-to-list 'compilation-error-regexp-alist 'java-tst-stack-trace)
-
-  (add-to-list 'compilation-error-regexp-alist-alist
-	       '(java-src-stack-trace .
-				      ("at \\(\\(?:[[:alnum:]]+\\.\\)+\\)+[[:alnum:]]+\\.[[:alnum:]]+(\\([[:alnum:]]+\\.java\\):\\([[:digit:]]+\\))$"
-				       maven-test-java-src-stack-trace-regexp-to-filename 3)))
-  (add-to-list 'compilation-error-regexp-alist-alist
-	       '(java-tst-stack-trace .
-				      ("at \\(\\(?:[[:alnum:]]+\\.\\)+\\)+[[:alnum:]]+\\.[[:alnum:]]+(\\([[:alnum:]]+\\Test.java\\):\\([[:digit:]]+\\))$"
-				       maven-test-java-tst-stack-trace-regexp-to-filename 3))))
-
 ;;; Utilities
 ;;
 (defun maven-test-root-dir ()
   "Locates maven root directory."
   (locate-dominating-file (buffer-file-name) "pom.xml"))
+
+(defun maven-test-compile (command)
+  (compile command  'maven-test-compilation-mode))
+
+(define-derived-mode maven-test-compilation-mode compilation-mode "Maven Test Compilation"
+  "Compilation mode for Maven output."
+  (set (make-local-variable 'compilation-error-regexp-alist)
+       (append '(java-tst-stack-trace java-src-stack-trace)
+	       compilation-error-regexp-alist))
+
+  (set (make-local-variable 'compilation-error-regexp-alist-alist)
+       (append '((java-tst-stack-trace
+		  "at \\(\\(?:[[:alnum:]]+\\.\\)+\\)+[[:alnum:]]+\\.[[:alnum:]]+(\\([[:alnum:]]+\\Test.java\\):\\([[:digit:]]+\\))$"
+		  maven-test-java-tst-stack-trace-regexp-to-filename 3)
+                 (java-src-stack-trace
+		  "at \\(\\(?:[[:alnum:]]+\\.\\)+\\)+[[:alnum:]]+\\.[[:alnum:]]+(\\([[:alnum:]]+\\.java\\):\\([[:digit:]]+\\))$"
+		  maven-test-java-src-stack-trace-regexp-to-filename 3))
+               compilation-error-regexp-alist-alist)))
 
 ;;;###autoload
 (define-minor-mode maven-test-mode
