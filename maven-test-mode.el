@@ -190,12 +190,15 @@
   (funcall func (maven-test-toggle-get-target-filename)))
 
 (defun maven-test-toggle-get-target-filename ()
+  "If visiting a Java class file, returns it's associated test filename. If
+visiting a test file, returns it's associated Java class filename"
   (let* ((subs (if (maven-test-is-test-file-p)
 		   (maven-test-test-to-class-subs)
 		 maven-test-class-to-test-subs)))
     (s-replace-all subs (buffer-file-name))))
 
 (defun maven-test-test-to-class-subs ()
+  "Reverts maven-test-class-to-test-subs."
   (mapcar
    #'(lambda (e) `(,(cdr e) . ,(car e)))
    maven-test-class-to-test-subs))
