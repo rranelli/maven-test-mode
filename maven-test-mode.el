@@ -226,9 +226,9 @@
   (locate-dominating-file (buffer-file-name) "pom.xml"))
 
 (defun maven-test-compile (command)
-  (compile command  'maven-test-compilation-mode))
+  (compile command  'maven-compilation-mode))
 
-(define-derived-mode maven-test-compilation-mode compilation-mode "Maven Test Compilation"
+(define-derived-mode maven-compilation-mode compilation-mode "Maven Test Compilation"
   "Compilation mode for Maven output."
   (set (make-local-variable 'compilation-error-regexp-alist)
        (append '(java-tst-stack-trace java-src-stack-trace)
