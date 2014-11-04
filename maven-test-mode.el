@@ -229,7 +229,7 @@ visiting a test file, returns it's associated Java class filename"
   (locate-dominating-file (buffer-file-name) "pom.xml"))
 
 (defun maven-test-compile (command)
-  (compile command  'maven-compilation-mode))
+  (compile command 'maven-compilation-mode))
 
 (define-derived-mode maven-compilation-mode compilation-mode "Maven Test Compilation"
   "Compilation mode for Maven output."
