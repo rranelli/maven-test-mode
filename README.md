@@ -1,5 +1,6 @@
 # Emacs Maven test mode
 [![MELPA](http://melpa.org/packages/maven-test-mode-badge.svg)](http://melpa.org/#/maven-test-mode)
+[![Build Status](https://travis-ci.org/rranelli/maven-test-mode.svg)](https://travis-ci.org/rranelli/maven-test-mode)
 
 ## Intallation
 You can install via `MELPA`, or manually by downloading `maven-test-mode` and
