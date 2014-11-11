@@ -69,7 +69,7 @@
   :group 'maven-test)
 
 (defcustom maven-test-test-method-name-re
-  "void \\([a-zA-Z]+\\) *() *{"
+  "void\s+\\([a-zA-Z]+\\)\s*()\s*\n?\s*{"
   "Pattern to identify the test method name before point"
   :group 'maven-test)
 
@@ -226,7 +226,7 @@ visiting a test file, returns it's associated Java class filename"
 ;;
 (defun maven-test-root-dir ()
   "Locates maven root directory."
-  (locate-dominating-file (buffer-file-name) "pom.xml"))
+  (expand-file-name (locate-dominating-file (buffer-file-name) "pom.xml")))
 
 (defun maven-test-compile (command)
   (compile command 'maven-compilation-mode))
