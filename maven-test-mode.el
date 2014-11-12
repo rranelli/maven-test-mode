@@ -59,7 +59,7 @@
 ;;; Code:
 (require 's)
 (require 'compile)
-
+
 ;;; Customization
 ;;
 (defcustom maven-test-class-to-test-subs
@@ -68,8 +68,11 @@
   "Patterns to substitute into class' filename to jump to the associated test."
   :group 'maven-test)
 
-(defcustom maven-test-test-method-name-re
-  "\\(?:void\s+\\([a-zA-Z]+\\)\s*()\s*\n?\s*{\\|def \\([a-zA-Z]+\\).*\s*=\s*\n?\\)"
+(defcustom maven-test-test-method-name-regexes
+  '("void\s+\\([a-zA-Z]+\\)\s*()\s*\n?\s*{"	;; default java method
+    "def \\([a-zA-Z]+\\).*\s*=\s*")		;; scala method
+
+
   "Pattern to identify the test method name before point"
   :group 'maven-test)
 
@@ -144,6 +147,7 @@
   (s-concat
    (maven-test-format-task (maven-test--test-task))
    (maven-test-class-name-from-buffer)
+   "#"
    (maven-test-get-prev-test-method-name)
    (maven-test-format-show-surefire-reports)))
 
@@ -159,21 +163,27 @@
    (maven-test-root-dir)))
 
 (defun maven-test-class-name-from-buffer ()
-  (let* ((class-file (file-name-base (buffer-file-name)))
-	 (class-name (s-replace ".java" "" class-file)))
-    (format " -Dtest=%s" class-name)))
+  (format " -Dtest=%s" (file-name-base (buffer-file-name))))
 
 (defun maven-test-get-prev-test-method-name ()
-  (save-excursion
-    (or
-     (re-search-backward maven-test-test-method-name-re nil t)
-     (error "No test method definition before point."))
-    (if (match-string 1)
-	(s-concat "#" (match-string 1))
-      (s-concat "#" (match-string 2)))))
+  (or
+   (maven-test--get-first-match maven-test-test-method-name-regexes)
+   (error "No test method definition before point.")))
 
 (defun maven-test--test-task ()
   (format "test %s" maven-test-test-task-options))
+
+(defun maven-test--get-first-match (rxs)
+  (when (and rxs (car rxs))
+    (or
+     (and
+      ;; this `and` block exists in order not to let (match-string 1) be
+      ;; evaluated if there was no match for this rx
+      (save-excursion
+	(end-of-line)
+	(re-search-backward (car rxs) nil t))
+      (match-string 1))
+     (maven-test--get-first-match (cdr rxs)))))
 
 ;;; Toggle between test and class
 ;;
