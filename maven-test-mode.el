@@ -69,7 +69,7 @@
   :group 'maven-test)
 
 (defcustom maven-test-test-method-name-re
-  "void\s+\\([a-zA-Z]+\\)\s*()\s*\n?\s*{"
+  "\\(?:void\s+\\([a-zA-Z]+\\)\s*()\s*\n?\s*{\\|def \\([a-zA-Z]+\\).*\s*=\s*\n?\\)"
   "Pattern to identify the test method name before point"
   :group 'maven-test)
 
@@ -168,7 +168,9 @@
     (or
      (re-search-backward maven-test-test-method-name-re nil t)
      (error "No test method definition before point."))
-    (s-concat "#" (match-string 1))))
+    (if (match-string 1)
+	(s-concat "#" (match-string 1))
+      (s-concat "#" (match-string 2)))))
 
 (defun maven-test--test-task ()
   (format "test %s" maven-test-test-task-options))

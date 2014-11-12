@@ -87,6 +87,23 @@
 		pom-dir
 		pom-dir))))))
 
+(ert-deftest test-method-command-scala-style ()
+  (let* ((pom-dir (expand-file-name "tests/dummy/" default-directory))
+	 (fname (expand-file-name "src/test/java/dummy/group/AppTest.scala" pom-dir))
+	 (fname-base (file-name-base fname))
+	 (method-name (format "%s#shouldReportAnError" fname-base)))
+    (with-temp-buffer
+      (find-file fname)
+      (goto-char (point-max))
+      (should (equal
+	       (maven-test-method-command)
+	       (format
+		"cd %s && mvn test -q -Dtest=%s;EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
+		pom-dir
+		method-name
+		pom-dir
+		pom-dir))))))
+
 ;;; Toggle functions
 ;;
 ;; TODO: Write these tests
