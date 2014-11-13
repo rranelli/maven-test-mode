@@ -3,3 +3,8 @@
 
 # Packaging
 .cask
+
+# other
+s.el
+ert.el
+target/
