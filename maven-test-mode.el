@@ -1,5 +1,4 @@
 ;;; maven-test-mode.el -- Run maven tests from emacs
-
 ;; Copyright (C) 2014 Renan Ranelli <http://rranelli.com>
 ;; Author: Renan Ranelli
 ;; URL: http://github.com/rranelli/maven-test-mode
@@ -71,9 +70,8 @@
 (defcustom maven-test-test-method-name-regexes
   '("void\s+\\([a-zA-Z]+\\)\s*()\s*\n?\s*{"	;; default java method
     "def \\([a-zA-Z]+\\).*\s*=\s*")		;; scala method
-
-
-  "Pattern to identify the test method name before point"
+  "Pattern to identify the test method name before point. The first match group
+should return the method name."
   :group 'maven-test)
 
 (defcustom maven-test-test-task-options

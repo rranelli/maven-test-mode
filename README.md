@@ -16,13 +16,41 @@ adding the following to your init file:
 If `maven-test-mode` is installed properly, it will be started automatically
 when `java-mode` is started.
 
-## Gotchas
+## Customization
+
+### Output format
 
 If you prefer the more 'verbose' `maven` output, change the default of
 `maven-test-test-task-options`:
 
 ```lisp
 (setq maven-test-test-task-options "")
+```
+
+### Toggling between implementation and tests
+
+In order to map between the class file and it's test, `maven-test-mode` uses the
+variable `maven-test-class-to-test-subs`. This variable specifies a list of
+substitution pairs `(REPLACE . BY)` that will be applied to the class file path
+in order to find the corresponding test file:
+
+```lisp
+(s-replace-all subs (buffer-file-name))
+```
+
+If your project does not comply with the default convention, you need to change
+the value of this variable.
+
+### Running test defined at point
+
+In order to identify which test method is immediately defined before point,
+`maven-test-mode` uses the regexes defined at
+`maven-test-test-method-name-regexes`. If your test method definition does not
+match the default regexes, you need to add your custom regex to the list with
+something like:
+
+```lisp
+(add-to-list 'maven-test-test-method-name-regexes "my-special-regex")
 ```
 
 ## Contributing
