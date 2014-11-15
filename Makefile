@@ -17,8 +17,10 @@ elpa: *.el
 	tar cvf maven-test-mode-$$version.tar "$$dir"
 
 test: downloads
-	${EMACS} -Q --batch -L .  -L ./test \
-		-l tests/maven-test-mode-tests.el \
+	${EMACS} -Q --batch -L .  -L ./tests \
+		-l tests/maven-test-mode-test-fixture \
+		-l tests/maven-test-mode-test-commands \
+		-l tests/maven-test-mode-test-toggle \
 		--eval "(ert-run-tests-batch-and-exit '(not (tag interactive)))"
 
 downloads:
