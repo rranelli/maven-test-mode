@@ -23,4 +23,4 @@ before_script:
   make downloads
 
 script:
-  make test-batch EMACS=${EMACS}
+  make test EMACS=${EMACS}
