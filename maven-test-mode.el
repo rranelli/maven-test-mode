@@ -46,11 +46,12 @@
 ;; Check the full list of available keybindings at `maven-test-mode-map'
 ;;
 ;; maven-test-mode defines a derived minor mode `maven-test-compilation' which
-;; defines how to jump from compilation errors to text files.
+;; allows one to jump from compilation errors to text files.
 ;;
 ;;; Change Log:
 ;;
-;; 0.1.2 - Add derived mode mavne-test-compilation and abolish
+;; 0.1.3 - Add ert tests.
+;; 0.1.2 - Add derived mode maven-test-compilation and abolish
 ;; maven-test-add-regexps-for-stack-trace-jump
 ;; 0.1.1 - Minor changes showing surefire reports on compilation buffer
 ;; 0.1 - First release
