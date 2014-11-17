@@ -3,7 +3,7 @@
 ;; Author: Renan Ranelli
 ;; URL: http://github.com/rranelli/maven-test-mode
 ;; Created: 2014
-;; Version: 0.1.2
+;; Version: 0.1.3
 ;; Keywords: java maven test
 ;; Package-Requires: ((s "1.9.0"))
 
