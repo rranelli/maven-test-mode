@@ -1,26 +1,8 @@
+;;; Code:
 (require 'maven-test-mode-test-fixture)
 
-;;; Basic stuff
 ;;
-(ert-deftest test-task-concatenates-options ()
-  (let ((maven-test-test-task-options "-Dtest=my-test and more stuff"))
-    (should (equal
-	     (maven-test--test-task)
-	     "test -Dtest=my-test and more stuff"))))
-
-(ert-deftest test-task-concatenates-options-has-no-sideffects ()
-  (should (equal
-	   maven-test-test-task-options
-	   "-q")))
-
-(ert-deftest test-maven-root-dir ()
-  (with-temp-buffer
-    (find-file app-file)
-    (should (equal
-	     (maven-test-root-dir)
-	     pom-dir))))
-
-;;; Commands
+;;; Compilation Commands
 ;;
 (ert-deftest test-all-command ()
   (with-temp-buffer
@@ -46,7 +28,9 @@
 	      pom-dir)))))
 
 (ert-deftest test-method-command-csharp-style-braces ()
-  (let* ((method-name (format "%s#testWithBracesRightAfter" (file-name-base app-test-file))))
+  (let* ((method-name (format
+		       "%s#testWithBracesRightAfter"
+		       (file-name-base app-test-file))))
     (with-temp-buffer
       (find-file app-test-file)
       (goto-char (point-max))
@@ -91,7 +75,3 @@
 		method-name
 		pom-dir
 		pom-dir))))))
-
-;;; Toggle functions
-;;
-;; TODO: Write these tests

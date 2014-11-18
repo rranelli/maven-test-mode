@@ -19,6 +19,7 @@ elpa: *.el
 test: downloads
 	${EMACS} -Q --batch -L .  -L ./tests \
 		-l tests/maven-test-mode-test-fixture \
+		-l tests/maven-test-mode-test-helpers \
 		-l tests/maven-test-mode-test-commands \
 		-l tests/maven-test-mode-test-toggle \
 		--eval "(ert-run-tests-batch-and-exit '(not (tag interactive)))"
