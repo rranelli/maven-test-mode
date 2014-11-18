@@ -55,11 +55,12 @@
 ;; maven-test-add-regexps-for-stack-trace-jump
 ;; 0.1.1 - Minor changes showing surefire reports on compilation buffer
 ;; 0.1 - First release
-
+
 ;;; Code:
 (require 's)
 (require 'compile)
-
+
+;;
 ;;; Customization
 ;;
 (defcustom maven-test-class-to-test-subs
@@ -79,7 +80,8 @@ should return the method name."
   "-q"
   "Options to add to the test task."
   :group 'maven-test)
-
+
+;;
 ;;; Keybindings
 ;;
 ;;;###autoload
@@ -94,7 +96,7 @@ should return the method name."
     (define-key map (kbd  "C-c , t") 'maven-test-toggle-between-test-and-class)
     (define-key map (kbd  "C-c , y") 'maven-test-toggle-between-test-and-class-other-window)
     map))
-
+
 ;;; Test functions
 ;;
 (defun maven-test-all ()
@@ -121,7 +123,8 @@ should return the method name."
       (maven-test-toggle-between-test-and-class))
     (maven-test-compile (maven-test-file-command))
     (find-file cur-file)))
-
+
+;;
 ;;; Test commands
 ;;
 (defun maven-test-method ()
@@ -149,7 +152,8 @@ should return the method name."
    "#"
    (maven-test-get-prev-test-method-name)
    (maven-test-format-show-surefire-reports)))
-
+
+;;
 ;;; Command formatting
 ;;
 (defun maven-test-format-task (task)
@@ -183,7 +187,8 @@ should return the method name."
 	(re-search-backward (car rxs) nil t))
       (match-string 1))
      (maven-test--get-first-match (cdr rxs)))))
-
+
+;;
 ;;; Toggle between test and class
 ;;
 (defun maven-test-is-test-file-p ()
@@ -213,7 +218,8 @@ visiting a test file, returns it's associated Java class filename"
   (mapcar
    #'(lambda (e) `(,(cdr e) . ,(car e)))
    maven-test-class-to-test-subs))
-
+
+;;
 ;;; Compilation mode jumps
 ;;
 ;; -- the following code was stolen from https://github.com/coreyoconnor/RCs
@@ -232,7 +238,8 @@ visiting a test file, returns it's associated Java class filename"
   (concat root
 	  (replace-regexp-in-string "\\." "/" (match-string 1))
 	  (match-string 2)))
-
+
+;;
 ;;; Utilities
 ;;
 (defun maven-test-root-dir ()
