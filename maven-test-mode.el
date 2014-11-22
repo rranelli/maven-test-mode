@@ -269,7 +269,7 @@ visiting a test file, returns it's associated Java class filename"
   "This minor mode provides utilities to run maven test tasks"
   :init-value nil
   :keymap maven-test-mode-map
-  :lighter "MvnTest"
+  :lighter " MvnTest"
   :group 'maven-test)
 
 (add-hook 'java-mode-hook 'maven-test-mode)
