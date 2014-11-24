@@ -7,4 +7,5 @@
 # other
 s.el
 ert.el
+.downloads
 target/
