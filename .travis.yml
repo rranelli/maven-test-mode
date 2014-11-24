@@ -20,7 +20,7 @@ install:
     fi
 
 before_script:
-  make downloads
+  make .downloads
 
 script:
   make test EMACS=${EMACS}

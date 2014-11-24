@@ -1,10 +1,9 @@
 EMACS := emacs
 CURL := curl --silent
 
-ERT_URL=http://git.savannah.gnu.org/cgit/emacs.git/plain/lisp/emacs-lisp/ert.el?h=emacs-24.3
 S_URL=https://raw.githubusercontent.com/magnars/s.el/master/s.el
 
-.PHONY: ert test test-batch
+.PHONY: test
 
 elpa: *.el
 	@version=`grep -o "Version: .*" maven-test-mode.el | cut -c 10-`; \
@@ -16,7 +15,7 @@ elpa: *.el
 	> "$$dir"/maven-test-mode-pkg.el; \
 	tar cvf maven-test-mode-$$version.tar "$$dir"
 
-test: downloads
+test: .downloads
 	${EMACS} -Q --batch -L .  -L ./tests \
 		-l tests/maven-test-mode-test-fixture \
 		-l tests/maven-test-mode-test-helpers \
@@ -24,10 +23,9 @@ test: downloads
 		-l tests/maven-test-mode-test-toggle \
 		--eval "(ert-run-tests-batch-and-exit '(not (tag interactive)))"
 
-downloads:
-	${EMACS} --batch -Q -L . --execute="(require 's) (require 'ert)" || \
-	${CURL} ${ERT_URL} > ert.el && \
+.downloads:
         ${CURL} ${S_URL} > s.el
+	touch .downloads
 
 clean:
 	@rm -rf maven-test-mode-*/ maven-test-mode-*.tar *.elc
