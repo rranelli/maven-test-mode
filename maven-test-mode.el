@@ -1,5 +1,6 @@
-;;; maven-test-mode.el -- Run maven tests from emacs
-;; Copyright (C) 2014 Renan Ranelli <http://rranelli.com>
+;;; maven-test-mode.el --- Run smart maven test tasks directly from Emacs.
+
+;; Copyright (C) 2014 Renan Ranelli <renanranelli at google mail>
 ;; Author: Renan Ranelli
 ;; URL: http://github.com/rranelli/maven-test-mode
 ;; Created: 2014
