@@ -6,6 +6,5 @@
 
 # other
 s.el
-ert.el
+*.tar.bz2
 .downloads
-target/

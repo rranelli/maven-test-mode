@@ -5,7 +5,7 @@
 ;; Created: 2014
 ;; Version: 0.1.3
 ;; Keywords: java maven test
-;; Package-Requires: ((s "1.9.0"))
+;; Package-Requires: ((s "1.9") (emacs 24))
 
 ;; This file is NOT part of GNU Emacs.
 ;;
@@ -55,8 +55,9 @@
 ;; maven-test-add-regexps-for-stack-trace-jump
 ;; 0.1.1 - Minor changes showing surefire reports on compilation buffer
 ;; 0.1 - First release
-
+
 ;;; Code:
+
 (require 's)
 (require 'compile)
 

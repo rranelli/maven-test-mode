@@ -5,15 +5,9 @@ S_URL=https://raw.githubusercontent.com/magnars/s.el/master/s.el
 
 .PHONY: test
 
-elpa: *.el
-	@version=`grep -o "Version: .*" maven-test-mode.el | cut -c 10-`; \
-	dir=maven-test-mode-$$version; \
-	mkdir -p "$$dir"; \
-	cp -r maven-test-mode.el maven-test-mode-$$version; \
-	echo "(define-package \"maven-test-mode\" \"$$version\" \
-	\"Utilities for running maven tests\")" \
-	> "$$dir"/maven-test-mode-pkg.el; \
-	tar cvf maven-test-mode-$$version.tar "$$dir"
+package:
+	@ver=`grep -o "Version: .*" maven-test-mode.el | cut -c 10-`; \
+	tar cjvf maven-test-mode-$$ver.tar.bz2 --mode 644 `git ls-files '*.el' | xargs`
 
 test: .downloads
 	${EMACS} -Q --batch -L .  -L ./tests \
