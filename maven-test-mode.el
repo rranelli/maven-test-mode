@@ -4,7 +4,7 @@
 ;; Author: Renan Ranelli
 ;; URL: http://github.com/rranelli/maven-test-mode
 ;; Created: 2014
-;; Version: 0.1.3
+;; Version: 0.1.4
 ;; Keywords: java maven test
 ;; Package-Requires: ((s "1.9") (emacs 24))
 
@@ -51,6 +51,7 @@
 ;;
 ;;; Change Log:
 ;;
+;; 0.1.4 - Minor refactorings.
 ;; 0.1.3 - Add ert tests.
 ;; 0.1.2 - Add derived mode maven-test-compilation and abolish
 ;; maven-test-add-regexps-for-stack-trace-jump
