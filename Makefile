@@ -5,7 +5,7 @@ S_URL=https://raw.githubusercontent.com/magnars/s.el/master/s.el
 
 .PHONY: test
 
-package:
+package: *.el
 	@ver=`grep -o "Version: .*" maven-test-mode.el | cut -c 10-`; \
 	tar cjvf maven-test-mode-$$ver.tar.bz2 --mode 644 `git ls-files '*.el' | xargs`
 
