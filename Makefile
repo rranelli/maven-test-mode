@@ -22,4 +22,4 @@ test: .downloads
 	touch .downloads
 
 clean:
-	@rm -rf maven-test-mode-*/ maven-test-mode-*.tar *.elc
+	@rm -rf maven-test-mode-*/ maven-test-mode-*.tar* *.elc
