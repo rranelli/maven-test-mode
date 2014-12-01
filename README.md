@@ -1,5 +1,6 @@
 # Emacs Maven test mode
 [![MELPA](http://melpa.org/packages/maven-test-mode-badge.svg)](http://melpa.org/#/maven-test-mode)
+[![MELPA Stable](http://stable.melpa.org/packages/maven-test-mode-badge.svg)](http://stable.melpa.org/#/maven-test-mode)
 [![Build Status](https://travis-ci.org/rranelli/maven-test-mode.svg)](https://travis-ci.org/rranelli/maven-test-mode)
 
 This minor mode provides some enhancements to java-mode in order to use maven
