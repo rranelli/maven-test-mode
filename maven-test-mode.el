@@ -1,12 +1,13 @@
-;;; maven-test-mode.el --- Run smart maven test tasks directly from Emacs.
+;;; maven-test-mode.el  --- Utilities for navigating test files and running maven test tasks.
 
 ;; Copyright (C) 2014 Renan Ranelli <renanranelli at google mail>
+
+;; description: Utilities for navigating test files and running maven test tasks.
 ;; Author: Renan Ranelli
 ;; URL: http://github.com/rranelli/maven-test-mode
-;; Created: 2014
 ;; Version: 0.1.4
 ;; Keywords: java maven test
-;; Package-Requires: ((s "1.9") (emacs 24))
+;; Package-Requires: ((s "1.9") (emacs "24"))
 
 ;; This file is NOT part of GNU Emacs.
 ;;
@@ -24,7 +25,7 @@
 ;; Public License.
 
 ;;; Commentary:
-;;
+
 ;; This minor mode provides some enhancements to java-mode in order to use maven
 ;; test tasks with little effort. It's largely based on the philosophy of
 ;; `rspec-mode' by Peter Williams. Namely, it provides the following
@@ -278,4 +279,4 @@ visiting a test file, returns it's associated Java class filename"
 (add-hook 'java-mode-hook 'maven-test-mode)
 
 (provide 'maven-test-mode)
-;;; maven-test-mode.el ends here.
+;;; maven-test-mode.el ends here
