@@ -1,13 +1,14 @@
-;;; maven-test-mode.el  --- Utilities for navigating test files and running maven test tasks.
+;;; maven-test-mode.el --- Utilities for navigating test files and running maven test tasks.
 
 ;; Copyright (C) 2014 Renan Ranelli <renanranelli at google mail>
 
-;; description: Utilities for navigating test files and running maven test tasks.
 ;; Author: Renan Ranelli
 ;; URL: http://github.com/rranelli/maven-test-mode
 ;; Version: 0.1.4
-;; Keywords: java maven test
+;; Keywords: java, maven, test
 ;; Package-Requires: ((s "1.9") (emacs "24"))
+
+;;; License:
 
 ;; This file is NOT part of GNU Emacs.
 ;;
