@@ -89,7 +89,7 @@ and then submit a pull request.
 
 * Fork the project.
 * Make your feature addition or bug fix.
-* Update the version and changelog in the header of rspec-mode.el to
+* Update the version and changelog in the header of maven-test-mode.el to
 reflect the change.
 * Send me a pull request. Bonus points for topic branches.
 
