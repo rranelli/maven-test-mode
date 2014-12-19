@@ -21,6 +21,7 @@ install:
 
 before_script:
   make .downloads
+  echo ${EMACS} --version
 
 script:
   make test EMACS=${EMACS}
