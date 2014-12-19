@@ -20,8 +20,7 @@ install:
     fi
 
 before_script:
-  make .downloads
-  echo ${EMACS} --version
+  ${EMACS} --version && make .downloads
 
 script:
   make test EMACS=${EMACS}
