@@ -82,6 +82,10 @@
 should return the method name."
   :group 'maven-test)
 
+(defcustom maven-test-is-test-file-regexp
+  "/src/test/"
+  "Regexp that, by matching file path, determines if it is a test file.")
+
 (defcustom maven-test-test-task-options
   "-q"
   "Options to add to the test task."
@@ -198,7 +202,7 @@ should return the method name."
 ;;; Toggle between test and class
 ;;
 (defun maven-test-is-test-file-p ()
-  (string-match "/src/test/" (buffer-file-name)))
+  (string-match maven-test-is-test-file-regexp (buffer-file-name)))
 
 (defun maven-test-toggle-between-test-and-class ()
   (interactive)
