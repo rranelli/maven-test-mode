@@ -176,6 +176,7 @@ should return the method name."
    (maven-test-root-dir)))
 
 (defun maven-test-class-name-from-buffer ()
+  "Format maven command to run test task only for current class."
   (format " -Dtest=%s" (file-name-base (buffer-file-name))))
 
 (defun maven-test-get-prev-test-method-name ()
@@ -202,22 +203,26 @@ should return the method name."
 ;;; Toggle between test and class
 ;;
 (defun maven-test-is-test-file-p ()
+  "Check whether the visited file is a test file."
   (string-match maven-test-is-test-file-regexp (buffer-file-name)))
 
 (defun maven-test-toggle-between-test-and-class ()
+  "Toggle between test and its corresponding class."
   (interactive)
   (maven-test--toggle-between-test-and-class #'find-file))
 
 (defun maven-test-toggle-between-test-and-class-other-window ()
+  "Toggle between class and its corresponding test."
   (interactive)
   (maven-test--toggle-between-test-and-class #'find-file-other-window))
 
 (defun maven-test--toggle-between-test-and-class (func)
+  "Higher order function for toggling between test file and its class using FUNC."
   (funcall func (maven-test-toggle-get-target-filename)))
 
 (defun maven-test-toggle-get-target-filename ()
-  "If visiting a Java class file, returns it's associated test filename. If
-visiting a test file, returns it's associated Java class filename"
+  "If visiting a Java class file, return it's associated test filename.
+If visiting a test file, returns it's associated Java class filename"
   (let* ((subs (if (maven-test-is-test-file-p)
 		   (maven-test-test-to-class-subs)
 		 maven-test-class-to-test-subs)))
@@ -237,14 +242,15 @@ visiting a test file, returns it's associated Java class filename"
 (defvar maven-test-java-tst-dir "src/test/java/")
 
 (defun maven-test-java-src-stack-trace-regexp-to-filename ()
-  "Generates a relative filename from java-stack-trace regexp match data."
+  "Generate a relative filename from java-stack-trace regexp match data."
   (maven-test--java-stack-trace-regexp-to-filename maven-test-java-src-dir))
 
 (defun maven-test-java-tst-stack-trace-regexp-to-filename ()
-  "Generates a relative filename from java-stack-trace regexp match data."
+  "Generate a relative filename from java-stack-trace regexp match data."
   (maven-test--java-stack-trace-regexp-to-filename maven-test-java-tst-dir))
 
 (defun maven-test--java-stack-trace-regexp-to-filename (root)
+  "Map java stack trace to file path starting from ROOT."
   (concat root
 	  (replace-regexp-in-string "\\." "/" (match-string 1))
 	  (match-string 2)))
@@ -257,6 +263,7 @@ visiting a test file, returns it's associated Java class filename"
   (expand-file-name (locate-dominating-file (buffer-file-name) "pom.xml")))
 
 (defun maven-test-compile (command)
+  "Execute COMMAND in a compilation buffer with maven-compilation-mode."
   (compile command 'maven-compilation-mode))
 
 (define-derived-mode maven-compilation-mode compilation-mode "Maven Test Compilation"
