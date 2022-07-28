@@ -21,7 +21,7 @@
     (should (equal
 	     (maven-test-file-command)
 	     (format
-	      "cd %s && mvn test -q -Dtest=%s;EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
+	      "cd %s && mvn test -q -Dtest='%s';EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
 	      pom-dir
 	      (file-name-base app-test-file)
 	      pom-dir
@@ -37,7 +37,7 @@
       (should (equal
 	       (maven-test-method-command)
 	       (format
-		"cd %s && mvn test -q -Dtest=%s;EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
+		"cd %s && mvn test -q -Dtest='%s';EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
 		pom-dir
 		method-name
 		pom-dir
@@ -54,7 +54,7 @@
       (should (equal
 	       (maven-test-method-command)
 	       (format
-		"cd %s && mvn test -q -Dtest=%s;EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
+		"cd %s && mvn test -q -Dtest='%s';EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
 		pom-dir
 		method-name
 		pom-dir
@@ -70,8 +70,76 @@
       (should (equal
 	       (maven-test-method-command)
 	       (format
-		"cd %s && mvn test -q -Dtest=%s;EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
+		"cd %s && mvn test -q -Dtest='%s';EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
 		pom-dir
 		method-name
 		pom-dir
 		pom-dir))))))
+
+(ert-deftest test-method-command-kotlin-style-no-spaces ()
+  (let* ((fname (expand-file-name "src/test/java/dummy/group/AppTest.kt" pom-dir))
+	       (fname-base (file-name-base fname))
+	       (method-name (format "%s#testNoSpaces" fname-base)))
+    (with-temp-buffer
+      (find-file fname)
+      (goto-char (point-min))
+      (re-search-forward "testNoSpaces")
+      (should (equal
+	             (maven-test-method-command)
+	             (format
+		            "cd %s && mvn test -q -Dtest='%s';EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
+		            pom-dir
+		            method-name
+		            pom-dir
+		            pom-dir))))))
+
+(ert-deftest test-method-command-kotlin-style-no-spaces-no-brace ()
+  (let* ((fname (expand-file-name "src/test/java/dummy/group/AppTest.kt" pom-dir))
+	       (fname-base (file-name-base fname))
+	       (method-name (format "%s#testNoSpacesNoBrace" fname-base)))
+    (with-temp-buffer
+      (find-file fname)
+      (goto-char (point-min))
+      (re-search-forward "testNoSpacesNoBrace")
+      (should (equal
+	             (maven-test-method-command)
+	             (format
+		            "cd %s && mvn test -q -Dtest='%s';EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
+		            pom-dir
+		            method-name
+		            pom-dir
+		            pom-dir))))))
+
+(ert-deftest test-method-command-kotlin-style-with-spaces ()
+  (let* ((fname (expand-file-name "src/test/java/dummy/group/AppTest.kt" pom-dir))
+	       (fname-base (file-name-base fname))
+	       (method-name (format "%s#test with spaces" fname-base)))
+    (with-temp-buffer
+      (find-file fname)
+      (goto-char (point-min))
+      (re-search-forward "test with spaces")
+      (should (equal
+	             (maven-test-method-command)
+	             (format
+		            "cd %s && mvn test -q -Dtest='%s';EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
+		            pom-dir
+		            method-name
+		            pom-dir
+		            pom-dir))))))
+
+(ert-deftest test-method-command-kotlin-style-with-spaces-no-brace ()
+  (let* ((fname (expand-file-name "src/test/java/dummy/group/AppTest.kt" pom-dir))
+	       (fname-base (file-name-base fname))
+	       (method-name (format "%s#test with spaces and no braces" fname-base)))
+    (with-temp-buffer
+      (find-file fname)
+      (goto-char (point-min))
+      (re-search-forward "test with spaces and no braces")
+      (should (equal
+	             (maven-test-method-command)
+	             (format
+		            "cd %s && mvn test -q -Dtest='%s';EC=$?; if [[ $EC != 0 && -d %starget/surefire-reports/ ]]; then cat %starget/surefire-reports/*.txt; exit $EC; fi"
+		            pom-dir
+		            method-name
+		            pom-dir
+		            pom-dir))))))
