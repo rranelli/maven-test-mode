@@ -77,7 +77,9 @@
 
 (defcustom maven-test-test-method-name-regexes
   '("void\s+\\([a-zA-Z]+\\)\s*()\s*\n?\s*{"	;; default java method
-    "def \\([a-zA-Z]+\\).*\s*=\s*")		;; scala method
+    "def \\([a-zA-Z]+\\).*\s*=\s*"		;; scala method
+    "fun \\([a-zA-Z]+\\|`[a-zA-Z][a-zA-Z ]*`\\)" ;; kotlin method
+    )
   "Pattern to identify the test method name before point. The first match group
 should return the method name."
   :group 'maven-test)
@@ -153,6 +155,7 @@ should return the method name."
   (s-concat
    (maven-test-format-task (maven-test--test-task))
    (maven-test-class-name-from-buffer)
+   "'"
    (maven-test-format-show-surefire-reports)))
 
 (defun maven-test-method-command ()
@@ -160,7 +163,8 @@ should return the method name."
    (maven-test-format-task (maven-test--test-task))
    (maven-test-class-name-from-buffer)
    "#"
-   (maven-test-get-prev-test-method-name)
+   (replace-regexp-in-string "`" "" (maven-test-get-prev-test-method-name))
+   "'"
    (maven-test-format-show-surefire-reports)))
 
 ;;
@@ -176,7 +180,7 @@ should return the method name."
    (maven-test-root-dir)))
 
 (defun maven-test-class-name-from-buffer ()
-  (format " -Dtest=%s" (file-name-base (buffer-file-name))))
+  (format " -Dtest='%s" (file-name-base (buffer-file-name))))
 
 (defun maven-test-get-prev-test-method-name ()
   (or
